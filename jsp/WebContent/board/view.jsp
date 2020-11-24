@@ -1,6 +1,19 @@
+<%@page import="com.web.board.dao.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% System.out.println("/borad/view.jsp"); %>
+
+<%
+// 여기는 자바입니다
+// 데이터 : no 데이터 받기
+String strNo = request.getParameter("no");
+int no = Integer.parseInt(strNo);
+BoardDAO dao = new BoardDAO();
+dao.increase(no);
+request.setAttribute("dto", dao.view(no));	//dao.view통해  dto 이름으로 받아옴
+
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,33 +35,35 @@
 <table class="table">
 	<tr>
 		<th>번호</th>
-		<td>10</td>
+		<td>${dto.no }</td>
 	</tr>
 		<tr>
 		<th>제목</th>
-		<td>JSP란??</td>
+		<td>${dto.title }</td>
 	</tr>
 		<tr>
 		<th>내용</th>
 		<td>
-			<pre style="backgroundnone; border:none">
-아이돈노우
-오예
+			<pre style="backgroundnone; border:none">${dto.content }
 			</pre>
 		</td>
 	</tr>
 	<tr>
 		<th>작성자</th>
-		<td>윤은혜</td>
+		<td>${dto.writer }</td>
+	</tr>
+	<tr>
+		<th>작성일자</th>
+		<td>${dto.writeDate }</td>
 	</tr>
 	<tr>
 		<th>조회수</th>
-		<td>300</td>
+		<td>${dto.hit }</td>
 	</tr>
 	<tr>
 		<td colspan="2">
-		<a href="updateForm.jsp" class="btn btn-default">글수정</a>
-		<a href="delete.jsp" class="btn btn-default">글삭제</a>
+		<a href="updateForm.jsp?no=${dto.no }" class="btn btn-default">글수정</a>
+		<a href="delete.jsp?no=${dto.no }" class="btn btn-default">글삭제</a>
 		<a href="list.jsp" class="btn btn-default">리스트</a>
 		</td>
 	</tr>
