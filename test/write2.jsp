@@ -27,17 +27,17 @@
 				alert('주소는 2자 이상입니다')
 				return false
 			}
-			
-			
-			
+					
 			$('#frm').submit();
 		})
 	})
+	
 </script>
+
 </head>
 <body>
 	<!-- 이름 3자이상 5자 이하 , 나이는 숫자, 주소는 2자이상-->
-	<form id="frm" method="post" action="write_ok.jsp">
+	<form id="frm" method="post" action="write_ok.jsp" >
 	이름<input type="text" name="name" id="name"><p>
 	나이<input type="text" name="age" id="age"><p>
 	주소<input type="text" name="juso" id="juso"><p>

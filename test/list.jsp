@@ -27,6 +27,14 @@
 </head>
 <body>
 <table width="400" align="center">
+	<tr>
+		<td>이름</td>
+		<td>나이</td>
+		<td>주소</td>
+		<td>삭제</td>
+		<td>수정</td>
+		
+	</tr>
 <%
 	while(rs.next()){
 %>
@@ -35,6 +43,9 @@
 		<td><%=rs.getString("name") %></td>
 		<td><%=rs.getString("age") %></td>
 		<td><%=rs.getString("juso") %></td>
+		<td><a href="delete.jsp?id=<%=rs.getString("id")%>">클릭</a></td>
+		<td><a href="update.jsp?id=<%=rs.getString("id")%>">클릭</a></td>
+		
 	</tr>
 	
 	
