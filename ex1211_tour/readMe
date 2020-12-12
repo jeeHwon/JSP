@@ -1,0 +1,16 @@
+필요 라이브러리 
+--1) DB연결 : mysql
+--2) 서버연결 : servlet
+--3) 파일업로드 : cos.jar 
+
+DB저장 => 테이블 : tour
+
+create table tour(
+id int auto_increment primary key,
+title varchar(100),
+name varchar(10),
+content text,
+fname varchar(100),
+writeday date
+);
+
