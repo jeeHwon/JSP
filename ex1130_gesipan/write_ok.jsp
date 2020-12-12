@@ -16,7 +16,7 @@
 	String pwd = request.getParameter("pwd");
 	String content = request.getParameter("content");
 	String sung = request.getParameter("sung");
-	String hobby = request.getParameter("hobby");
+	String hobby = String.join("," , request.getParameterValues("hobby"));
 	String birth = request.getParameter("birth");
 	
 	//쿼리 생성
