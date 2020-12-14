@@ -68,14 +68,24 @@ a:hover {
 		}
 		frm.submit();
 	}
+	function update(datid){
+		//폼태그의 action="sung_update_ok.jsp"로 변경, submit의 value를 댓글수정"
+		document.getElementById("frm").action="sung_update_ok.jsp"
+		document.getElementById("frm").onsubmit="return true"
+		document.getElementById("submit").value="성적수정"
+		document.getElementById("pwd2").style.visibility="hidden"
+
+		document.frm.id.value=datid;
+	}
 </script>
 </head>
 <body>
 <div align="center">
 	<h2>본인의 성적을 입력하세요</h2></div>
-	<form name="frm" method="post" action="input_ok.jsp" onsubmit="return false">
+	<form id="frm" name="frm" method="post" action="input_ok.jsp" onsubmit="return false">
+		<input type="hidden" name="id">
 		<table width="600" align="center">
-
+			
 			<tr>
 				<td>이름</td>
 				<td><input type="text" name="name"></td>
@@ -84,9 +94,9 @@ a:hover {
 				<td>비밀번호</td>
 				<td><input type="password" name="pwd"></td>
 			</tr>
-			<tr>
+			<tr id="pwd2">
 				<td>비밀번호확인</td>
-				<td><input type="password" name="pwd2"></td>
+				<td><input type="password" name="pwd2" ></td>
 			</tr>
 			<tr>
 				<td>국어</td>
@@ -105,7 +115,7 @@ a:hover {
 				<td><input type="text" name="sci"></td>
 			</tr>
 			<tr>
-				<td colspan="2" align="center"><input type="submit" value="성적입력" onclick="frmchk()">
+				<td colspan="2" align="center"><input id="submit" type="submit" value="성적입력" onclick="frmchk()">
 				</td>
 			</tr>
 		</table>
@@ -122,6 +132,8 @@ a:hover {
 			<td><a href="sung_view.jsp?cla=hap">합계</a></td>
 			<td><a href="sung_view.jsp?cla=hap">평균</a></td>
 			<td>작성일</td>
+			<td>수정</td>
+			
 
 		</tr>
 		<%
@@ -141,6 +153,7 @@ a:hover {
 			<td><%=hap%></td>
 			<td><%=avg%></td>
 			<td><%=rs.getString("writeday")%></td>
+			<td><a href="javascript:update(<%=rs.getInt("id")%>)">클릭</a></td>
 
 		</tr>
 		<%
