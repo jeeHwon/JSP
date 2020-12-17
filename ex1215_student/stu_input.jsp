@@ -124,37 +124,7 @@ a:hover {
 			
 		}
 	</script>
-	<!-- 레코드 내용 출력 -->
-	<div align="center">
-		<table width="600">
-			<tr>
-				<td>이름</td>
-				<td>학번</td>
-				<td>생년월일</td>
-				<td>우편번호</td>
-				<td>주소</td>
-				<td>나머지주소</td>
-				<td>전화번호</td>
-				<td>작성일</td>
-			</tr>
-			<%
-				while (rs.next()) {
-			%>
-			<tr>
-				<td><%=rs.getString("name")%></td>
-				<td><%=rs.getString("hakbun")%></td>
-				<td><%=rs.getString("birth")%></td>
-				<td><%=rs.getString("zip")%></td>
-				<td><%=rs.getString("juso")%></td>
-				<td><%=rs.getString("juso_etc")%></td>
-				<td><%=rs.getString("phone")%></td>
-				<td><%=rs.getString("writeday")%></td>
-			</tr>
-			<%
-			}
-		%>
-		</table>
-	</div>
+	
 
 </body>
 </html>

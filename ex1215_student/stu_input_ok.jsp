@@ -39,8 +39,8 @@
 	pstmt.executeUpdate();
 	pstmt.close();
 	
-		//이동하고 싶은 문서
-	response.sendRedirect("stu_input.jsp");
+	//이동하고 싶은 문서
+	response.sendRedirect("stu_list.jsp");
 	
 	conn.close();
 %>
