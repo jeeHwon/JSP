@@ -37,6 +37,7 @@
 				<td>이름</td>
 				<td>생년월일</td>
 				<td>전화번호</td>
+				<td>수정</td>
 			</tr>
 			<%
 				while (rs.next()) {
@@ -46,6 +47,7 @@
 				<td><%=rs.getString("name")%></td>
 				<td><%=rs.getString("birth")%></td>
 				<td><%=rs.getString("phone")%></td>
+				<td><a href="stu_update.jsp?id=<%=rs.getInt("id")%>"><input type="button" value="수정하기"></a></td>
 			</tr>
 			<%
 			}
