@@ -1,0 +1,12 @@
+==학번 가져오기
+create table imsi(
+hakbun(char7));
+
+insert into imsi (hakbun) values ('s030101');
+select hakbun from imsi where hakbun like 's0301%';
+select substring(hakbun, 6, 2) from imsi where hakbun like 's0301%';
+select substring(hakbun, 6, 2) from imsi where hakbun like 's0301%' ordere by hakbun;
+select max(substring(hakbun, 6, 2)) from imsi where hakbun like 's0301%';
+
+ifnull(필드명, 'null일때 값')
+select ifnull(max(substring(hakbun, 6, 2)), 0) from imsi where hakbun like 's0302%';
