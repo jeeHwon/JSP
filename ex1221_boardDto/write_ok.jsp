@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import= "jspPJ.BoardDto" %>
+<%@ page import= "jspPJ.BoardDto_old" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +15,7 @@
 	String content = request.getParameter("content");
 	String pwd = request.getParameter("pwd");
 	
-	BoardDto bd = new BoardDto();
+	BoardDto_old bd = new BoardDto_old();
 	bd.setTitle(title);
 	bd.setName(name);
 	bd.setContent(content);
