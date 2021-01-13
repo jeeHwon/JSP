@@ -1,6 +1,7 @@
 package hotel;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class HotelDAO {
@@ -103,7 +104,56 @@ public class HotelDAO {
 					
 		}
 		
+		public int room_state(String rid, String xday) throws SQLException {	//룸 아이디와 'yyyy-mm-dd'받아 예약확인 
+			String sql = "select count(*) as cnt from reserve where inday <=? and outday >? and rid =?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, xday);
+			pstmt.setString(2, xday);
+			pstmt.setString(3, rid);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			return rs.getInt("cnt");
+		}
+		
+		public int suk_check(String year, String month, String day, String rid) throws SQLException {
+			int yy = Integer.parseInt(year);
+			int mm = Integer.parseInt(month);
+			int dd = Integer.parseInt(day);
+			LocalDate inday = LocalDate.of(yy, mm, dd);
+			int chk = 0;
+			
+			for(int i=1; i<9; i++) {
+				LocalDate xday = inday.plusDays(i);
+				chk = i;
+				String sql = "select * from reserve where inday <= ? and outday > ? and rid = ?";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, xday.toString());
+				pstmt.setString(2, xday.toString());
+				pstmt.setString(3, rid);
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next()) { //레코드 있으면 true, 없으면 false
+					break;		//for문 종료
+				}
+			}
+			return chk;			// 숙박 가능한 일수를 리턴
+		}
+		
+		public void member_ok(MemberDTO mdto) throws SQLException {
+			String sql = "insert into hotel_member(name, userid, pwd, phone, writeday) ";
+			sql = sql + " values (?,?,?,?,now()) ";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, mdto.getName());
+	        pstmt.setString(2, mdto.getUserid());
+	        pstmt.setString(3, mdto.getPwd());
+	        pstmt.setString(4, mdto.getPhone());
+	        pstmt.executeUpdate();
+	        
+	        conn.close();
+			
+		}
 
-
+		
+		
+		
 }
 
