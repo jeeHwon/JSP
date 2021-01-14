@@ -151,6 +151,28 @@ public class HotelDAO {
 	        conn.close();
 			
 		}
+		
+		public boolean isMember(String userid, String pwd) throws SQLException {
+			String sql = "select * from hotel_member where userid=? and pwd=?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			pstmt.setString(2, pwd);
+			ResultSet rs = pstmt.executeQuery();
+			
+			return rs.next();
+		}
+		
+		public int isUserid(String userid) throws SQLException {
+			// 아이디가 존재하면 1, 아니면 0
+			String sql = "select count(*) as num from Hotel_member where userid='"+userid+"'";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			
+			//아이디가 존재하면 1, 아니면 0
+			return rs.getInt("num");
+			
+		}
 
 		
 		
