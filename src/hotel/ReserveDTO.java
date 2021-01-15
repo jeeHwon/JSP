@@ -2,7 +2,7 @@ package hotel;
 
 public class ReserveDTO {
 	private int id, rid, inwon1, inwon2, inwon3, opt1, opt2, opt3, suk_price, etc_price, tot_price;
-	private String name, phone, inday, outday, writeday;
+	private String name, phone, inday, outday, writeday, roomname;
 	private int suk;	//테이블에 없는 필드
 	public int getId() {
 		return id;
@@ -105,5 +105,11 @@ public class ReserveDTO {
 	}
 	public void setSuk(int suk) {
 		this.suk = suk;
+	}
+	public String getRoomname() {
+		return roomname;
+	}
+	public void setRoomname(String roomname) {
+		this.roomname = roomname;
 	}
 }

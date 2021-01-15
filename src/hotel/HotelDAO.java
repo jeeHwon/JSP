@@ -50,12 +50,12 @@ public class HotelDAO {
 			return hdto;
 		}
 		
-		public void insert (ReserveDTO rdto) throws SQLException {
+		public void insert (ReserveDTO rdto, String userid) throws SQLException {
 			//date_add('2021-01-05', interval 숙박일day)
 			String outday = "date_add('"+rdto.getInday()+"', interval "+rdto.getSuk()+" day) ";
 			String sql = "insert into reserve(rid,name,phone,inday,outday, ";
 			sql = sql+"inwon1,inwon2,inwon3,opt1,opt2,opt3,suk_price,etc_price, ";
-			sql = sql+"tot_price,writeday) values (?,?,?,?,"+outday+",?,?,?,?,?,?,?,?,?,now())";
+			sql = sql+"tot_price,writeday,userid) values (?,?,?,?,"+outday+",?,?,?,?,?,?,?,?,?,now(),?)";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, rdto.getRid());
@@ -71,14 +71,15 @@ public class HotelDAO {
 			pstmt.setInt(11, rdto.getSuk_price());
 			pstmt.setInt(12, rdto.getEtc_price());
 			pstmt.setInt(13, rdto.getTot_price());
+			pstmt.setString(14, userid);
 			
 			pstmt.executeUpdate();
 			conn.close();
 			
 		}
 		
-		public ReserveDTO get_reserve(String phone) throws SQLException {
-			String sql = "select * from reserve where phone='"+phone+"' order by id desc limit 1";
+		public ReserveDTO get_reserve(String userid) throws SQLException {
+			String sql = "select * from reserve where userid='"+userid+"' order by id desc limit 1";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			rs.next();
@@ -172,6 +173,43 @@ public class HotelDAO {
 			//아이디가 존재하면 1, 아니면 0
 			return rs.getInt("num");
 			
+		}
+		
+		public MemberDTO mypage(String userid) throws SQLException {
+			String sql = "select * from hotel_member where userid = '"+userid+"'";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			MemberDTO mdto = new MemberDTO();
+			mdto.setName(rs.getString("name"));
+			mdto.setPhone(rs.getString("phone"));
+			
+			return mdto;
+			
+			
+			
+		}
+		
+		public ArrayList<ReserveDTO> my_reserve(String userid) throws SQLException {
+			String sql = "select r2.name, r1.inday, r1.outday, r1.opt1, r1.opt2, r1.opt3";
+			sql = sql + ", r1.writeday from reserve as r1, room as r2 ";
+			sql = sql + " where r1.rid = r2.id and userid = '"+userid+"'";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			ArrayList<ReserveDTO> list = new ArrayList<ReserveDTO>();
+			while(rs.next()) {
+				ReserveDTO rdto = new ReserveDTO();
+				rdto.setRoomname(rs.getString("name"));
+				rdto.setInday(rs.getString("inday"));
+				rdto.setOutday(rs.getString("outday"));
+				rdto.setOpt1(rs.getInt("opt1"));
+				rdto.setOpt2(rs.getInt("opt2"));
+				rdto.setOpt3(rs.getInt("opt3"));
+				rdto.setWriteday(rs.getString("writeday"));
+				
+				list.add(rdto);
+			}
+			return list;
 		}
 
 		
