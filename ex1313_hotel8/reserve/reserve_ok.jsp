@@ -10,9 +10,9 @@
 
 <%
 	HotelDAO hdao = new HotelDAO();
-
-	hdao.insert(rdto);
-	response.sendRedirect("reserve_view.jsp?phone="+rdto.getPhone());
+	String userid = session.getAttribute("userid").toString();
+	hdao.insert(rdto, userid);
+	response.sendRedirect("reserve_view.jsp?userid="+userid);
 %>
 <%=request.getParameter("inwon1") %>
 <%=request.getParameter("inwon2") %>

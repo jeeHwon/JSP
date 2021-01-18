@@ -1,6 +1,11 @@
 package hotel;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -186,8 +191,6 @@ public class HotelDAO {
 			
 			return mdto;
 			
-			
-			
 		}
 		
 		public ArrayList<ReserveDTO> my_reserve(String userid) throws SQLException {
@@ -211,7 +214,61 @@ public class HotelDAO {
 			}
 			return list;
 		}
-
+		
+		//아이디 찾기
+		public String userid_search(String name, String phone) throws SQLException {
+			String sql = "select userid from hotel_member where name = ? and phone = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, phone);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getString("userid");
+			} else {
+				return "0";
+			}
+			
+		}
+		
+		//비밀번호 찾기
+		public String pwd_search(String userid, String name, String phone) throws SQLException {
+			String sql = "select pwd from hotel_member where name = ? and phone = ? and userid = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, phone);
+			pstmt.setString(3, userid);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getString("pwd");
+			} else {
+				return "0";
+			}
+		}
+		
+		// 관리자가 reserve 
+		public ArrayList<ReserveDTO> admin_reserve() throws SQLException{
+			String sql = "select r1.name, r1.phone, r2.name as roomname, r1.inday, r1.outday, r1.opt1, r1.opt2, r1.opt3";
+			sql = sql + ", r1.writeday from reserve as r1, room as r2 ";
+			sql = sql + " where r1.rid = r2.id order by r1.id desc";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			ArrayList<ReserveDTO> list = new ArrayList<ReserveDTO>();
+			while(rs.next()) {
+				ReserveDTO rdto = new ReserveDTO();
+				rdto.setName(rs.getString("name"));
+				rdto.setPhone(rs.getString("phone"));
+				rdto.setRoomname(rs.getString("roomname"));
+				rdto.setInday(rs.getString("inday"));
+				rdto.setOutday(rs.getString("outday"));
+				rdto.setOpt1(rs.getInt("opt1"));
+				rdto.setOpt2(rs.getInt("opt2"));
+				rdto.setOpt3(rs.getInt("opt3"));
+				rdto.setWriteday(rs.getString("writeday"));
+				
+				list.add(rdto);
+			}
+			return list;
+		}
 		
 		
 		
